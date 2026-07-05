@@ -29,14 +29,14 @@ const hasPersistedChange = (state: StoreState, prevState: StoreState) =>
 
 const formatRelativeTime = (from: number, to: number) => {
   const diffSeconds = Math.max(0, Math.floor((to - from) / 1000))
-  if (diffSeconds < 5) return "just now"
-  if (diffSeconds < 60) return `${diffSeconds}s ago`
+  if (diffSeconds < 5) return "vừa xong"
+  if (diffSeconds < 60) return `${diffSeconds} giây trước`
   const diffMinutes = Math.floor(diffSeconds / 60)
-  if (diffMinutes < 60) return `${diffMinutes}m ago`
+  if (diffMinutes < 60) return `${diffMinutes} phút trước`
   const diffHours = Math.floor(diffMinutes / 60)
-  if (diffHours < 24) return `${diffHours}h ago`
+  if (diffHours < 24) return `${diffHours} giờ trước`
   const diffDays = Math.floor(diffHours / 24)
-  return `${diffDays}d ago`
+  return `${diffDays} ngày trước`
 }
 
 export const Toolbar = () => {
@@ -103,13 +103,13 @@ export const Toolbar = () => {
   }, [canRedo, canUndo, redo, undo])
 
   const autosaveLabel = lastAutosaveAt
-    ? `Autosaved ${formatRelativeTime(lastAutosaveAt, now)}`
-    : "Autosave idle"
+    ? `Đã tự lưu ${formatRelativeTime(lastAutosaveAt, now)}`
+    : "Tự lưu đang chờ"
   const layout = getLayoutConfig(layoutId)
   const theme = layout.themes.find((entry) => entry.id === themeId) ?? layout.themes[0]
   const projectBadges = [
-    `${conversation.participants.length} participants`,
-    `${conversation.messages.length} messages`,
+    `${conversation.participants.length} người`,
+    `${conversation.messages.length} tin nhắn`,
     `${layout.name} ${theme.name}`,
   ]
 
@@ -122,7 +122,7 @@ export const Toolbar = () => {
           </div>
           <div className="space-y-0.5">
             <div className="text-sm font-semibold text-slate-900">Chat Message Simulator</div>
-            <div className="text-xs text-slate-500">Craft and export chat mockups</div>
+            <div className="text-xs text-slate-500">Tạo và xuất ảnh mô phỏng đoạn chat</div>
             <div className="hidden flex-wrap items-center gap-2 pt-1 sm:flex">
               {projectBadges.map((badge) => (
                 <Badge key={badge} variant="secondary">
@@ -145,13 +145,13 @@ export const Toolbar = () => {
                   className="rounded-full"
                   onClick={undo}
                   disabled={!canUndo}
-                  aria-label="Undo"
+                  aria-label="Hoàn tác"
                 >
                   <Undo2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">Undo</span>
+                  <span className="hidden sm:inline">Hoàn tác</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Undo (Ctrl/Cmd+Z)</TooltipContent>
+              <TooltipContent>Hoàn tác (Ctrl/Cmd+Z)</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -161,13 +161,13 @@ export const Toolbar = () => {
                   className="rounded-full"
                   onClick={redo}
                   disabled={!canRedo}
-                  aria-label="Redo"
+                  aria-label="Làm lại"
                 >
                   <Redo2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">Redo</span>
+                  <span className="hidden sm:inline">Làm lại</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Redo (Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y)</TooltipContent>
+              <TooltipContent>Làm lại (Ctrl/Cmd+Shift+Z hoặc Ctrl/Cmd+Y)</TooltipContent>
             </Tooltip>
           </div>
 
@@ -175,20 +175,20 @@ export const Toolbar = () => {
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
                 <MoreHorizontal className="h-4 w-4" />
-                Actions
+                Tác vụ
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Project actions</DialogTitle>
+                <DialogTitle>Tác vụ dự án</DialogTitle>
                 <DialogDescription>
-                  Manage files, local storage, and project utilities.
+                  Quản lý tệp, dữ liệu cục bộ và tiện ích dự án.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    File
+                    Tệp
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2">
                     <Button
@@ -199,7 +199,7 @@ export const Toolbar = () => {
                       }}
                     >
                       <FileDown className="h-4 w-4" />
-                      Export JSON
+                      Xuất JSON
                     </Button>
                     <Button
                       variant="secondary"
@@ -209,7 +209,7 @@ export const Toolbar = () => {
                       }}
                     >
                       <FileUp className="h-4 w-4" />
-                      Load JSON
+                      Tải JSON
                     </Button>
                     <Button
                       variant="secondary"
@@ -220,13 +220,13 @@ export const Toolbar = () => {
                       }}
                     >
                       <Save className="h-4 w-4" />
-                      Save Local
+                      Lưu cục bộ
                     </Button>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    Utilities
+                    Tiện ích
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Button
@@ -237,7 +237,7 @@ export const Toolbar = () => {
                       }}
                     >
                       <Trash2 className="h-4 w-4" />
-                      Reset project
+                      Đặt lại dự án
                     </Button>
                   </div>
                 </div>
@@ -247,14 +247,14 @@ export const Toolbar = () => {
           <Dialog open={isResetOpen} onOpenChange={setIsResetOpen}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Reset this project?</DialogTitle>
+                <DialogTitle>Đặt lại dự án này?</DialogTitle>
                 <DialogDescription>
-                  This clears the current conversation, layout, and stored snapshot. You can&apos;t undo this action.
+                  Thao tác này sẽ xoá cuộc trò chuyện hiện tại, bố cục và bản lưu cục bộ. Bạn không thể hoàn tác.
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-wrap justify-end gap-2">
                 <Button variant="outline" onClick={() => setIsResetOpen(false)}>
-                  Cancel
+                  Huỷ
                 </Button>
                 <Button
                   variant="destructive"
@@ -264,7 +264,7 @@ export const Toolbar = () => {
                     setIsResetOpen(false)
                   }}
                 >
-                  Reset project
+                  Đặt lại dự án
                 </Button>
               </div>
             </DialogContent>

@@ -18,7 +18,7 @@ export const formatTimestamp = (timestamp: string) => {
 
 export const formatDateSeparator = (timestamp: string) => {
   try {
-    return format(new Date(timestamp), "MMM d, yyyy")
+    return format(new Date(timestamp), "dd/MM/yyyy")
   } catch {
     return ""
   }
@@ -26,7 +26,7 @@ export const formatDateSeparator = (timestamp: string) => {
 
 export const formatInstagramDateSeparator = (timestamp: string) => {
   try {
-    return format(new Date(timestamp), "d MMM 'AT' HH:mm").toUpperCase()
+    return format(new Date(timestamp), "dd/MM 'LÚC' HH:mm")
   } catch {
     return ""
   }
@@ -38,9 +38,9 @@ export const clamp = (value: number, min: number, max: number) =>
 export const getConversationTitle = (conversation: Conversation) => {
   const names = conversation.participants.map((participant) => participant.name).filter(Boolean)
   if (conversation.participants.length > 2) {
-    return conversation.groupName?.trim() || "Group Chat"
+    return conversation.groupName?.trim() || "Nhóm chat"
   }
-  if (names.length === 0) return "New Chat"
+  if (names.length === 0) return "Cuộc trò chuyện mới"
   if (names.length === 1) return names[0]
   return `${names[0]} & ${names[1]}`
 }

@@ -91,8 +91,8 @@ export const ConversationView = ({
         {visibleMessages.length === 0 ? (
           <div className="mx-auto max-w-sm rounded-2xl border border-dashed border-white/40 bg-white/10 px-6 py-8 text-center text-sm text-[var(--chat-muted)]">
             {messages.length === 0
-              ? "Start your story by adding messages in the builder."
-              : "No visible messages. Unhide messages in the builder."}
+              ? "Bắt đầu bằng cách thêm tin nhắn trong trình chỉnh sửa."
+              : "Không có tin nhắn nào đang hiển thị. Hãy bỏ ẩn trong trình chỉnh sửa."}
           </div>
         ) : null}
         {visibleMessages.map((message, index) => {

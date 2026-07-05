@@ -44,6 +44,12 @@ const toDateInputValue = (iso: string) => {
   return new Date(date.getTime() - offset).toISOString().slice(0, 10)
 }
 
+const messageTypeLabels: Record<Message["type"], string> = {
+  text: "Văn bản",
+  image: "Hình ảnh",
+  system: "Hệ thống",
+}
+
 const MessageRow = ({
   message,
   onEdit,
@@ -100,13 +106,13 @@ const MessageRow = ({
           {message.content}
         </div>
         <div className="text-xs text-slate-500">
-          {message.type} - {formatTimestamp(message.timestamp)}
+          {messageTypeLabels[message.type] ?? message.type} - {formatTimestamp(message.timestamp)}
         </div>
       </div>
       <div className="flex items-center gap-2">
         <Button variant="ghost" size="icon" onClick={onEdit}>
           <Pencil className="h-4 w-4" />
-          <span className="sr-only">Edit</span>
+          <span className="sr-only">Sửa</span>
         </Button>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -114,7 +120,7 @@ const MessageRow = ({
               <Trash2 className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Delete</TooltipContent>
+          <TooltipContent>Xoá</TooltipContent>
         </Tooltip>
         <Button
           variant="ghost"
@@ -123,7 +129,7 @@ const MessageRow = ({
           onClick={onToggleActions}
         >
           <MoreHorizontal className="h-4 w-4" />
-          <span className="sr-only">More actions</span>
+          <span className="sr-only">Tác vụ khác</span>
         </Button>
       </div>
     </div>
@@ -241,8 +247,8 @@ export const ConversationBuilder = () => {
   const handleEasyApply = () => {
     const receiverId = resolveReceiverId()
     if (!activeParticipantId || !receiverId) {
-      setEasyError("Add at least two participants to use easy mode.")
-      showToast("Add at least two participants to use easy mode.", "error")
+      setEasyError("Cần ít nhất 2 người tham gia để dùng chế độ Dễ.")
+      showToast("Cần ít nhất 2 người tham gia để dùng chế độ Dễ.", "error")
       return
     }
 
@@ -269,8 +275,8 @@ export const ConversationBuilder = () => {
     })
 
     if (hasInvalidLine || entries.length === 0) {
-      setEasyError("Use < or > at the start of each message line.")
-      showToast("Use < or > at the start of each message line.", "error")
+      setEasyError("Mỗi dòng tin nhắn phải bắt đầu bằng < hoặc >.")
+      showToast("Mỗi dòng tin nhắn phải bắt đầu bằng < hoặc >.", "error")
       return
     }
 
@@ -296,7 +302,7 @@ export const ConversationBuilder = () => {
 
     setMessages(nextMessages)
     setEasyError(null)
-    showToast("Easy changes applied.")
+    showToast("Đã áp dụng thay đổi chế độ Dễ.")
   }
 
   const hasHidden = messages.some((message) => message.isHidden)
@@ -310,19 +316,19 @@ export const ConversationBuilder = () => {
     <TooltipProvider>
       <div className="space-y-4">
         <div>
-          <h3 className="text-sm font-semibold text-slate-900">Conversation Builder</h3>
+          <h3 className="text-sm font-semibold text-slate-900">Trình tạo cuộc trò chuyện</h3>
           <p className="text-xs text-slate-500">
-            Add messages, drag to reorder, or switch to Easy mode for bulk edits.
+            Thêm tin nhắn, kéo để sắp xếp lại hoặc dùng chế độ Dễ để chỉnh sửa hàng loạt.
           </p>
         </div>
 
         <div className="space-y-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">Messages</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">Tin nhắn</h4>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-slate-500">{messages.length} total</span>
+              <span className="text-xs text-slate-500">{messages.length} tổng cộng</span>
               <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <Label className="text-[10px] uppercase text-slate-400">Global date</Label>
+                <Label className="text-[10px] uppercase text-slate-400">Ngày chung</Label>
                 <Input
                   type="date"
                   value={globalDate}
@@ -331,7 +337,7 @@ export const ConversationBuilder = () => {
                   disabled={messages.length === 0}
                 />
                 <span className="text-xs text-slate-400">
-                  {hasMixedDates ? "Mixed dates" : "Keeps time-of-day"}
+                  {hasMixedDates ? "Nhiều ngày khác nhau" : "Giữ nguyên giờ/phút"}
                 </span>
               </div>
               <Button
@@ -343,7 +349,7 @@ export const ConversationBuilder = () => {
                 }
                 disabled={!hasVisible}
               >
-                Hide all
+                Ẩn tất cả
               </Button>
               <Button
                 type="button"
@@ -354,14 +360,14 @@ export const ConversationBuilder = () => {
                 }
                 disabled={!hasHidden}
               >
-                Show all
+                Hiện tất cả
               </Button>
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
             <div className="space-y-1">
-              <div className="text-xs font-semibold uppercase text-slate-400">Editor view</div>
-              <p className="text-xs text-slate-500">Switch between the list and easy text editor.</p>
+              <div className="text-xs font-semibold uppercase text-slate-400">Chế độ biên tập</div>
+              <p className="text-xs text-slate-500">Chuyển giữa danh sách và trình soạn thảo văn bản nhanh.</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <Button
@@ -370,7 +376,7 @@ export const ConversationBuilder = () => {
                 variant={viewMode === "standard" ? "default" : "outline"}
                 onClick={() => handleViewModeChange("standard")}
               >
-                Standard
+                Tiêu chuẩn
               </Button>
               <Button
                 type="button"
@@ -378,21 +384,21 @@ export const ConversationBuilder = () => {
                 variant={viewMode === "easy" ? "default" : "outline"}
                 onClick={() => handleViewModeChange("easy")}
               >
-                Easy
+                Dễ
               </Button>
             </div>
           </div>
           {viewMode === "easy" ? (
             <div className="rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <Label className="text-xs uppercase text-slate-400">Easy editor</Label>
+                <Label className="text-xs uppercase text-slate-400">Soạn thảo nhanh</Label>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={() => setEasyInput(buildEasyText())}
                 >
-                  Refresh
+                  Làm mới
                 </Button>
               </div>
               <div className="mt-3 space-y-2">
@@ -402,13 +408,13 @@ export const ConversationBuilder = () => {
                     setEasyInput(event.target.value)
                     if (easyError) setEasyError(null)
                   }}
-                  placeholder={`< ${activeParticipant?.name ?? "Sender"} message\n> ${receiverParticipant?.name ?? "Receiver"} message`}
+                  placeholder={`< ${activeParticipant?.name ?? "Người gửi"} tin nhắn\n> ${receiverParticipant?.name ?? "Người nhận"} tin nhắn`}
                   className="min-h-[280px] resize-y"
                 />
                 <p className="text-xs text-slate-500">
-                  <span className="font-semibold">&lt;</span> = {activeParticipant?.name ?? "Sender"},{" "}
-                  <span className="font-semibold">&gt;</span> = {receiverParticipant?.name ?? "Receiver"}.
-                  New lines become new messages, timestamps default to now.
+                  <span className="font-semibold">&lt;</span> = {activeParticipant?.name ?? "Người gửi"},{" "}
+                  <span className="font-semibold">&gt;</span> = {receiverParticipant?.name ?? "Người nhận"}.
+                  Mỗi dòng mới là một tin nhắn mới, thời gian mặc định là hiện tại.
                 </p>
                 {easyError ? (
                   <div className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600">
@@ -418,7 +424,7 @@ export const ConversationBuilder = () => {
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Button type="button" onClick={handleEasyApply}>
-                  Apply changes
+                  Áp dụng thay đổi
                 </Button>
                 <Button
                   type="button"
@@ -428,7 +434,7 @@ export const ConversationBuilder = () => {
                     setEasyError(null)
                   }}
                 >
-                  Clear
+                  Xoá nội dung
                 </Button>
               </div>
             </div>
@@ -436,7 +442,7 @@ export const ConversationBuilder = () => {
             <>
               {messages.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-xs text-slate-500">
-                  No messages yet. Add the first entry above.
+                  Chưa có tin nhắn. Hãy thêm tin nhắn đầu tiên ở phía trên.
                 </div>
               ) : null}
               <DndContext
@@ -495,7 +501,7 @@ export const ConversationBuilder = () => {
                                   disabled={!canMoveUp}
                                 >
                                   <ArrowUp className="h-4 w-4" />
-                                  <span className="sr-only">Move up</span>
+                                  <span className="sr-only">Di chuyển lên</span>
                                 </Button>
                                 <Button
                                   variant="ghost"
@@ -504,7 +510,7 @@ export const ConversationBuilder = () => {
                                   disabled={!canMoveDown}
                                 >
                                   <ArrowDown className="h-4 w-4" />
-                                  <span className="sr-only">Move down</span>
+                                  <span className="sr-only">Di chuyển xuống</span>
                                 </Button>
                               </div>
                               <Button
@@ -516,7 +522,7 @@ export const ConversationBuilder = () => {
                                 }}
                               >
                                 {message.isHidden ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                                {message.isHidden ? "Show in chat" : "Hide from chat"}
+                                {message.isHidden ? "Hiện trong đoạn chat" : "Ẩn khỏi đoạn chat"}
                               </Button>
                               <Button
                                 variant="ghost"
@@ -527,7 +533,7 @@ export const ConversationBuilder = () => {
                                 }}
                               >
                                 <Copy className="h-4 w-4" />
-                                Duplicate
+                                Nhân bản
                               </Button>
                               <Button
                                 variant="ghost"
@@ -539,7 +545,7 @@ export const ConversationBuilder = () => {
                                 }}
                               >
                                 <Trash2 className="h-4 w-4" />
-                                Delete
+                                Xoá
                               </Button>
                             </div>
                           ) : null}
@@ -558,7 +564,7 @@ export const ConversationBuilder = () => {
                                   setEditingId(null)
                                 }}
                                 onCancel={() => setEditingId(null)}
-                                submitLabel="Save changes"
+                                submitLabel="Lưu thay đổi"
                               />
                             </div>
                           ) : null}
@@ -587,7 +593,7 @@ export const ConversationBuilder = () => {
                     onSubmit={(payload) => {
                       addMessage(payload)
                     }}
-                    submitLabel="Add message"
+                    submitLabel="Thêm tin nhắn"
                   />
                 </div>
               ) : null}
@@ -597,7 +603,7 @@ export const ConversationBuilder = () => {
                 variant={isAddOpen ? "outline" : "default"}
                 onClick={() => setIsAddOpen((prev) => !prev)}
               >
-                {isAddOpen ? "Hide add message" : "Add message"}
+                {isAddOpen ? "Ẩn phần thêm tin nhắn" : "Thêm tin nhắn"}
               </Button>
             </div>
           </>

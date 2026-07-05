@@ -8,7 +8,7 @@ interface MessageInputProps {
   layout?: LayoutConfig
 }
 
-export const MessageInput = ({ placeholder = "Message", layout }: MessageInputProps) => {
+export const MessageInput = ({ placeholder = "Tin nhắn", layout }: MessageInputProps) => {
   const isWhatsApp = layout?.id === "whatsapp"
   const isIMessage = layout?.id === "imessage"
   const isSnapchat = layout?.id === "snapchat"
@@ -31,13 +31,13 @@ export const MessageInput = ({ placeholder = "Message", layout }: MessageInputPr
   const inputPlaceholder = isIMessage
     ? "iMessage"
     : isSnapchat
-      ? "Chat"
+      ? "Trò chuyện"
       : isMessenger
         ? "Aa"
         : isInstagram
-          ? "Message..."
+          ? "Nhắn tin..."
           : isTinder
-            ? "Say something nice"
+            ? "Nói điều gì đó dễ thương"
             : placeholder
 
   return (
@@ -67,7 +67,7 @@ export const MessageInput = ({ placeholder = "Message", layout }: MessageInputPr
             size="sm"
             className="h-8 rounded-full border-[var(--chat-border)] px-3 text-[0.65rem] font-semibold uppercase tracking-wide text-[var(--chat-accent)] hover:bg-[color:rgba(253,80,104,0.08)]"
           >
-            Sticker
+            Nhãn dán
           </Button>
         </>
       ) : null}

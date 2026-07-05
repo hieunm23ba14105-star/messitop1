@@ -93,13 +93,13 @@ interface ConversationStore {
 const defaultParticipants: Participant[] = [
   {
     id: "p1",
-    name: "Avery",
+    name: "Nguyễn Minh Hiếu",
     status: "online",
     color: "#22c55e",
   },
   {
     id: "p2",
-    name: "Jordan",
+    name: "Messi",
     status: "typing",
     color: "#0b84ff",
   },
@@ -129,97 +129,97 @@ const defaultMessageSeed: Array<{
 }> = [
   {
     senderId: "p1",
-    content: "Morning. I expanded the chat mockup layout so it feels closer to a real thread.",
+    content: "Sáng nay mình đã mở rộng bố cục mô phỏng chat để nhìn giống cuộc trò chuyện thật hơn.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p2",
-    content: "Good. The short demo was too tidy and it hid the long-conversation problem.",
+    content: "Ổn đó. Bản demo ngắn trước đây quá gọn nên che mất vấn đề khi đoạn chat dài.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p1",
-    content: "Exactly. Once the conversation got dense, people couldn’t tell how to review older messages.",
+    content: "Chuẩn luôn. Khi cuộc trò chuyện dày lên thì người xem không biết cách xem lại tin cũ.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p2",
-    content: "And exports only made sense if the important part happened to be inside the device viewport.",
+    content: "Và ảnh xuất ra chỉ hữu ích khi phần quan trọng tình cờ nằm trong khung nhìn thiết bị.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p1",
-    content: "So I’m splitting it into two actions: capture the current viewport, or export every visible message.",
+    content: "Nên mình tách thành hai chế độ: chụp khung nhìn hiện tại hoặc xuất toàn bộ tin nhắn đang hiển thị.",
     type: "text",
     status: "delivered",
   },
   {
     senderId: "p2",
-    content: "That solves the screenshot problem. We still need a clearer way to move through the preview itself.",
+    content: "Vậy xử lý được phần chụp màn hình rồi. Nhưng vẫn cần cách điều hướng phần xem trước rõ hơn.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p1",
-    content: "I’m adding jump controls for top and latest, plus a status callout when the thread is taller than the phone.",
+    content: "Mình thêm nút nhảy lên đầu/xuống cuối, kèm thông báo khi đoạn chat cao hơn khung điện thoại.",
     type: "text",
     status: "delivered",
   },
   {
     senderId: "p2",
-    content: "Perfect. It should feel obvious without adding weird chrome inside the fake app UI.",
+    content: "Quá ổn. Cách này trực quan mà không cần thêm thành phần lạ vào giao diện mô phỏng.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p1",
-    content: "Also removing the bundled SVG avatars. Default mocks will use initials until the user uploads real images.",
+    content: "Mình cũng bỏ avatar SVG mặc định. Bản mô phỏng sẽ dùng chữ cái tên cho tới khi người dùng tải ảnh thật.",
     type: "text",
     status: "delivered",
   },
   {
     senderId: "p2",
-    content: "Better. Neutral defaults make the generator feel less pre-scripted.",
+    content: "Tốt hơn nhiều. Mặc định trung tính giúp công cụ bớt cảm giác dựng sẵn.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p1",
-    content: "I left hidden messages out of the full export on purpose. If it’s hidden in the builder, it stays hidden everywhere.",
+    content: "Mình chủ động loại tin nhắn đã ẩn khỏi ảnh xuất đầy đủ. Đã ẩn trong trình chỉnh thì ở đâu cũng ẩn.",
     type: "text",
     status: "delivered",
   },
   {
     senderId: "p2",
-    content: "Good call. Otherwise export behavior gets surprising fast.",
+    content: "Hợp lý. Không thì hành vi lúc xuất ảnh sẽ rất khó đoán.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p2",
-    content: "System note: long threads now get dedicated preview guidance and an all-messages export mode.",
+    content: "Ghi chú hệ thống: đoạn chat dài nay có hướng dẫn xem trước riêng và chế độ xuất toàn bộ tin nhắn.",
     type: "system",
     status: "sent",
   },
   {
     senderId: "p1",
-    content: "I’m keeping the phone preview fixed-height so editing still feels like composing on a real device.",
+    content: "Mình giữ khung xem trước điện thoại ở chiều cao cố định để thao tác vẫn giống đang nhắn tin thật.",
     type: "text",
     status: "delivered",
   },
   {
     senderId: "p2",
-    content: "That’s the right tradeoff. The editor stays readable, and the export can grow when it needs to.",
+    content: "Đó là điểm cân bằng tốt. Trình chỉnh vẫn dễ nhìn, còn ảnh xuất có thể kéo dài khi cần.",
     type: "text",
     status: "read",
   },
   {
     senderId: "p1",
-    content: "Ship it. This seed thread should make the new behavior obvious the moment the app loads.",
+    content: "Chốt luôn. Đoạn hội thoại mẫu này sẽ làm hành vi mới rõ ràng ngay khi mở app.",
     type: "text",
     status: "sent",
   },
@@ -317,7 +317,7 @@ export const useConversationStore = create<ConversationStore>()(
           const nextParticipants = [...state.conversation.participants, newParticipant]
           const groupName =
             nextParticipants.length > 2
-              ? state.conversation.groupName ?? "Group Chat"
+              ? state.conversation.groupName ?? "Nhóm chat"
               : undefined
           return {
             conversation: {
@@ -358,7 +358,7 @@ export const useConversationStore = create<ConversationStore>()(
               ? remaining[0].id
               : state.activeParticipantId
           const groupName =
-            remaining.length > 2 ? state.conversation.groupName ?? "Group Chat" : undefined
+            remaining.length > 2 ? state.conversation.groupName ?? "Nhóm chat" : undefined
           return {
             activeParticipantId,
             conversation: {
@@ -492,7 +492,7 @@ export const useConversationStore = create<ConversationStore>()(
         const legacyTitle = (conversation as { title?: string }).title
         const participants = normalizeParticipants(conversation.participants)
         const groupName =
-          participants.length > 2 ? conversation.groupName ?? legacyTitle ?? "Group Chat" : undefined
+          participants.length > 2 ? conversation.groupName ?? legacyTitle ?? "Nhóm chat" : undefined
         set((state) => ({
           conversation: {
             ...conversation,

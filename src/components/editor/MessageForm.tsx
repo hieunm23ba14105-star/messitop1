@@ -116,17 +116,17 @@ export const MessageForm = ({
     } catch (error) {
       console.error("Paste failed", error)
     }
-    const fallback = window.prompt("Paste message")
+    const fallback = window.prompt("Dán nội dung tin nhắn")
     if (fallback) insertAtCursor(fallback)
   }
 
   const handleImageUpload = async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      setImageError("Only image files are allowed.")
+      setImageError("Chỉ cho phép tệp hình ảnh.")
       return
     }
     if (file.size > 5 * 1024 * 1024) {
-      setImageError("Image must be smaller than 5MB.")
+      setImageError("Ảnh phải nhỏ hơn 5MB.")
       return
     }
     try {
@@ -135,7 +135,7 @@ export const MessageForm = ({
       setImageError(null)
     } catch (error) {
       console.error("Failed to read image file", error)
-      setImageError("Could not read the selected image.")
+      setImageError("Không thể đọc ảnh đã chọn.")
     }
   }
 
@@ -145,7 +145,7 @@ export const MessageForm = ({
       onSubmit={(event) => {
         event.preventDefault()
         if (type === "image" && !imageUrl) {
-          setImageError("Please upload an image for this message.")
+          setImageError("Vui lòng tải ảnh lên cho tin nhắn này.")
           return
         }
         onSubmit({
@@ -169,16 +169,16 @@ export const MessageForm = ({
     >
       <div className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Label>{type === "image" ? "Caption" : "Message"}</Label>
+          <Label>{type === "image" ? "Chú thích" : "Tin nhắn"}</Label>
           <div className="flex items-center gap-2">
             <Button type="button" size="sm" variant="ghost" onClick={handlePaste}>
               <Clipboard className="h-3.5 w-3.5" />
-              Paste
+              Dán
             </Button>
             {content ? (
               <Button type="button" size="sm" variant="ghost" onClick={() => setContent("")}>
                 <X className="h-3.5 w-3.5" />
-                Clear
+                Xoá
               </Button>
             ) : null}
           </div>
@@ -187,21 +187,21 @@ export const MessageForm = ({
           ref={textareaRef}
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder={type === "image" ? "Add a caption (optional)..." : "Write the message..."}
+          placeholder={type === "image" ? "Thêm chú thích (không bắt buộc)..." : "Nhập nội dung tin nhắn..."}
           className={cn(compact && "min-h-[72px]")}
         />
       </div>
 
       {type === "image" ? (
         <div className="space-y-2">
-          <Label>Image upload</Label>
+          <Label>Tải ảnh lên</Label>
           <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2">
             <div className="h-20 w-28 overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
               {imageUrl ? (
-                <img src={imageUrl} alt="Uploaded preview" className="h-full w-full object-cover" />
+                <img src={imageUrl} alt="Ảnh xem trước" className="h-full w-full object-cover" />
               ) : (
                 <div className="flex h-full items-center justify-center text-xs text-slate-400">
-                  No image
+                  Chưa có ảnh
                 </div>
               )}
             </div>
@@ -214,14 +214,14 @@ export const MessageForm = ({
                 className="gap-2"
               >
                 <ImagePlus className="h-4 w-4" />
-                Upload image
+                Chọn ảnh
               </Button>
               {imageUrl ? (
                 <Button type="button" variant="ghost" size="sm" onClick={() => setImageUrl("")}>
-                  Remove
+                  Xoá ảnh
                 </Button>
               ) : null}
-              <span className="text-xs text-slate-500">JPG, PNG, or WEBP up to 5MB.</span>
+              <span className="text-xs text-slate-500">JPG, PNG hoặc WEBP tối đa 5MB.</span>
             </div>
             <input
               ref={fileInputRef}
@@ -248,10 +248,10 @@ export const MessageForm = ({
         <>
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Sender</Label>
+              <Label>Người gửi</Label>
               <Select value={senderId} onValueChange={setSenderId}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select sender" />
+                  <SelectValue placeholder="Chọn người gửi" />
                 </SelectTrigger>
                 <SelectContent>
                   {participants.map((participant) => (
@@ -263,7 +263,7 @@ export const MessageForm = ({
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Timestamp</Label>
+              <Label>Thời gian</Label>
               <Input
                 type="datetime-local"
                 value={timestamp}
@@ -274,7 +274,7 @@ export const MessageForm = ({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Type</Label>
+              <Label>Loại</Label>
               <Select
                 value={type}
                 onValueChange={(value) => {
@@ -286,25 +286,25 @@ export const MessageForm = ({
                 }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select type" />
+                  <SelectValue placeholder="Chọn loại tin nhắn" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="text">Text</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                  <SelectItem value="image">Image</SelectItem>
+                  <SelectItem value="text">Văn bản</SelectItem>
+                  <SelectItem value="system">Hệ thống</SelectItem>
+                  <SelectItem value="image">Hình ảnh</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Status</Label>
+              <Label>Trạng thái</Label>
               <Select value={status} onValueChange={(value) => setStatus(value as Message["status"])}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue placeholder="Chọn trạng thái" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="sent">Sent</SelectItem>
-                  <SelectItem value="delivered">Delivered</SelectItem>
-                  <SelectItem value="read">Read</SelectItem>
+                  <SelectItem value="sent">Đã gửi</SelectItem>
+                  <SelectItem value="delivered">Đã nhận</SelectItem>
+                  <SelectItem value="read">Đã xem</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -318,20 +318,20 @@ export const MessageForm = ({
           disabled={type === "image" && !imageUrl}
           onClick={() => {
             if (type === "image" && !imageUrl) {
-              setImageError("Please upload an image for this message.")
+              setImageError("Vui lòng tải ảnh lên cho tin nhắn này.")
             }
           }}
         >
-          {submitLabel ?? (initial ? "Save changes" : "Add message")}
+          {submitLabel ?? (initial ? "Lưu thay đổi" : "Thêm tin nhắn")}
         </Button>
         {initial ? (
           <Button type="button" variant="ghost" onClick={onCancel}>
-            Cancel
+            Huỷ
           </Button>
         ) : null}
         {showAdvancedToggle ? (
           <Button type="button" variant="ghost" onClick={onToggleAdvanced}>
-            {advancedOpen ? "Hide advanced" : "Advanced"}
+            {advancedOpen ? "Ẩn nâng cao" : "Nâng cao"}
           </Button>
         ) : null}
       </div>

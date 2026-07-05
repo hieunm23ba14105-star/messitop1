@@ -116,7 +116,7 @@ export const MainLayout = () => {
     } catch (error) {
       console.error("Quick export failed", error)
       if (mode === "preview") {
-        const message = error instanceof Error ? error.message : "Unknown error"
+        const message = error instanceof Error ? error.message : "Lỗi không xác định"
         setQuickPreviewError(message)
       }
     } finally {
@@ -315,30 +315,30 @@ export const MainLayout = () => {
   const panelTabs = [
     {
       id: "participants",
-      label: "Participants",
+      label: "Người tham gia",
       icon: Users,
-      description: "Add people, avatars, and presence details.",
-      meta: `${conversation.participants.length} people`,
+      description: "Thêm người, avatar và trạng thái hiện diện.",
+      meta: `${conversation.participants.length} người`,
     },
     {
       id: "messages",
-      label: "Messages",
+      label: "Tin nhắn",
       icon: MessagesSquare,
-      description: "Write, reorder, and time the chat flow.",
-      meta: `${conversation.messages.length} messages`,
+      description: "Soạn nội dung, sắp xếp lại và chỉnh thời gian hội thoại.",
+      meta: `${conversation.messages.length} tin nhắn`,
     },
     {
       id: "settings",
-      label: "Appearance",
+      label: "Giao diện",
       icon: SlidersHorizontal,
-      description: "Pick layout, theme, and background polish.",
+      description: "Chọn bố cục, giao diện màu và nền.",
       meta: `${layout.name} ${theme.name}`,
     },
     {
       id: "export",
-      label: "Export",
+      label: "Xuất ảnh",
       icon: Download,
-      description: "Set size, format, and download exports.",
+      description: "Thiết lập kích thước, định dạng và tải ảnh.",
       meta: `${exportSettings.width} x ${exportSettings.height}`,
     },
   ] as const
@@ -359,10 +359,10 @@ export const MainLayout = () => {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                  Workflow
+                  Quy trình
                 </div>
                 <div className="text-sm font-semibold text-slate-900">
-                  Step {resolvedActivePanelIndex + 1} of {panelTabs.length}: {activePanel.label}
+                  Bước {resolvedActivePanelIndex + 1}/{panelTabs.length}: {activePanel.label}
                 </div>
                 <p className="text-xs text-slate-500">{activePanel.description}</p>
               </div>
@@ -432,8 +432,8 @@ export const MainLayout = () => {
               <CardHeader className="space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">Preview canvas</div>
-                    <p className="text-xs text-slate-500">Live view of your layout and message flow.</p>
+                    <div className="text-sm font-semibold text-slate-900">Khung xem trước</div>
+                    <p className="text-xs text-slate-500">Xem trực tiếp bố cục và luồng tin nhắn.</p>
                   </div>
                   <div className="flex w-full items-center gap-2 overflow-x-auto pb-1 sm:w-auto sm:flex-wrap">
                     <Button
@@ -443,7 +443,7 @@ export const MainLayout = () => {
                     >
                       {ui.showChrome ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                       <span className="hidden sm:inline">
-                        {ui.showChrome ? "Hide chrome" : "Show chrome"}
+                        {ui.showChrome ? "Ẩn khung máy" : "Hiện khung máy"}
                       </span>
                     </Button>
                     <Button
@@ -452,7 +452,7 @@ export const MainLayout = () => {
                       onClick={() => setUi({ zoom: clamp(ui.zoom - 0.1, 0.5, 2) })}
                     >
                       <Minus className="h-4 w-4" />
-                      <span className="hidden sm:inline">Zoom out</span>
+                      <span className="hidden sm:inline">Thu nhỏ</span>
                     </Button>
                     <Button
                       variant="outline"
@@ -460,30 +460,30 @@ export const MainLayout = () => {
                       onClick={() => setUi({ zoom: clamp(ui.zoom + 0.1, 0.5, 2) })}
                     >
                       <Plus className="h-4 w-4" />
-                      <span className="hidden sm:inline">Zoom in</span>
+                      <span className="hidden sm:inline">Phóng to</span>
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => setUi({ zoom: 1 })}>
                       <ScreenShare className="h-4 w-4" />
-                      <span className="hidden sm:inline">Reset</span>
+                      <span className="hidden sm:inline">Đặt lại</span>
                     </Button>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
                   <SquareStack className="h-4 w-4" />
-                  Zoom {Math.round(appliedScale * 100)}%
-                  {ui.autoFit ? " (auto-fit)" : ""} - Export size {exportSettings.width} x{" "}
+                  Thu phóng {Math.round(appliedScale * 100)}%
+                  {ui.autoFit ? " (tự căn)" : ""} - Kích thước xuất {exportSettings.width} x{" "}
                   {resolvedExportHeight}
-                  {exportSettings.captureMode === "full" ? " - all messages" : ""}
+                  {exportSettings.captureMode === "full" ? " - toàn bộ tin nhắn" : ""}
                 </div>
                 {conversationMetrics.hasOverflow ? (
                   <div className="flex flex-col gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-950 sm:flex-row sm:items-center sm:justify-between">
                     <div className="space-y-1">
                       <div className="font-semibold">
-                        Long conversation detected: {visibleMessageCount} visible messages
+                        Đoạn chat dài: {visibleMessageCount} tin nhắn đang hiển thị
                       </div>
                       <p className="text-amber-900/80">
-                        Scroll inside the phone preview to browse the thread, or jump directly to
-                        the start or latest message.
+                        Cuộn trong phần xem trước để duyệt đoạn chat, hoặc nhảy nhanh tới đầu
+                        hay tin nhắn mới nhất.
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -492,14 +492,14 @@ export const MainLayout = () => {
                         size="sm"
                         onClick={() => scrollPreviewConversation("top")}
                       >
-                        Jump to top
+                        Lên đầu
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => scrollPreviewConversation("bottom")}
                       >
-                        Jump to latest
+                        Tới mới nhất
                       </Button>
                     </div>
                   </div>
@@ -556,20 +556,20 @@ export const MainLayout = () => {
                 <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="space-y-2">
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Layout
+                      Bố cục
                     </div>
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                       <div className="w-full sm:w-auto">
                         <LayoutSelector />
                       </div>
                       <div className="flex items-center justify-between gap-2 rounded-full bg-slate-100 px-3 py-1 sm:justify-start">
-                        <span className="text-xs font-semibold text-slate-600">Theme</span>
+                        <span className="text-xs font-semibold text-slate-600">Giao diện màu</span>
                         <Switch
                           checked={isDark}
                           onCheckedChange={(value) => setTheme(value && hasDark ? "dark" : "light")}
                           disabled={!hasDark}
                         />
-                        <span className="text-xs text-slate-500">{isDark ? "Dark" : "Light"}</span>
+                        <span className="text-xs text-slate-500">{isDark ? "Tối" : "Sáng"}</span>
                       </div>
                     </div>
                   </div>
@@ -580,13 +580,13 @@ export const MainLayout = () => {
                       setUi({ activePanel: "settings", activeView: "editor", isSidebarOpen: true })
                     }
                   >
-                    More settings
+                    Thêm tuỳ chỉnh
                   </Button>
                 </div>
                 <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="space-y-3">
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Quick download
+                      Tải nhanh
                     </div>
                     <div className="-mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible sm:px-0">
                       {quickPresets.map((preset) => (
@@ -608,7 +608,7 @@ export const MainLayout = () => {
                     </div>
                     <div className="space-y-2">
                       <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                        Capture
+                        Phạm vi chụp
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <Button
@@ -616,29 +616,29 @@ export const MainLayout = () => {
                           size="sm"
                           onClick={() => setExportSettings({ captureMode: "viewport" })}
                         >
-                          Current viewport
+                          Khung nhìn hiện tại
                         </Button>
                         <Button
                           variant={exportSettings.captureMode === "full" ? "default" : "outline"}
                           size="sm"
                           onClick={() => setExportSettings({ captureMode: "full" })}
                         >
-                          All messages
+                          Toàn bộ tin nhắn
                         </Button>
                         <Button
                           variant={exportSettings.captureMode === "screens" ? "default" : "outline"}
                           size="sm"
                           onClick={() => setExportSettings({ captureMode: "screens" })}
                         >
-                          {screenCount} screens
+                          {screenCount} màn hình
                         </Button>
                       </div>
                       <p className="text-xs text-slate-500">
                         {exportSettings.captureMode === "full"
-                          ? `Exports every visible message in a ${exportSettings.width} x ${resolvedExportHeight}px image.`
+                          ? `Xuất toàn bộ tin nhắn hiển thị trong ảnh ${exportSettings.width} x ${resolvedExportHeight}px.`
                           : exportSettings.captureMode === "screens"
-                            ? `Splits the chat into ${screenCount} consecutive device screenshots based on the current export size.`
-                            : "Exports the device frame exactly as it appears in the preview."}
+                            ? `Chia đoạn chat thành ${screenCount} ảnh chụp thiết bị liên tiếp theo kích thước hiện tại.`
+                            : "Xuất chính xác khung thiết bị như trong phần xem trước."}
                       </p>
                     </div>
                   </div>
@@ -661,7 +661,7 @@ export const MainLayout = () => {
                       onClick={() => handleQuickExport("preview")}
                     >
                       <Image className="h-4 w-4" />
-                      Preview
+                      Xem trước
                     </Button>
                     <Button
                       size="lg"
@@ -670,7 +670,7 @@ export const MainLayout = () => {
                       onClick={() => handleQuickExport("download")}
                     >
                       <Download className="h-4 w-4" />
-                      Download
+                      Tải xuống
                     </Button>
                   </div>
                 </div>
@@ -687,23 +687,23 @@ export const MainLayout = () => {
                 >
                   <DialogContent className="w-[94vw] max-w-5xl max-h-[88vh] overflow-y-auto">
                     <DialogHeader>
-                      <DialogTitle>Export preview</DialogTitle>
+                      <DialogTitle>Xem trước ảnh xuất</DialogTitle>
                       <DialogDescription>
                         {resolvedExportSettings.width} x {resolvedExportSettings.height} -{" "}
                         {resolvedExportSettings.scale}x -{" "}
                         {resolvedExportSettings.format.toUpperCase()} -{" "}
                         {exportSettings.captureMode === "full"
-                          ? "All messages"
+                          ? "Toàn bộ tin nhắn"
                           : exportSettings.captureMode === "screens"
-                            ? `${screenCount} subsequent screens`
-                            : "Current viewport"}
+                            ? `${screenCount} màn hình liên tiếp`
+                            : "Khung nhìn hiện tại"}
                       </DialogDescription>
                     </DialogHeader>
                     {isQuickPreviewing ? (
-                      <div className="text-sm text-slate-500">Rendering preview...</div>
+                      <div className="text-sm text-slate-500">Đang dựng ảnh xem trước...</div>
                     ) : null}
                     {quickPreviewError ? (
-                      <div className="text-sm text-red-600">Export failed: {quickPreviewError}</div>
+                      <div className="text-sm text-red-600">Xuất ảnh thất bại: {quickPreviewError}</div>
                     ) : null}
                     {quickPreviewUrls.length ? (
                       <div className="space-y-3">
@@ -711,15 +711,15 @@ export const MainLayout = () => {
                           <div key={quickPreviewUrl} className="space-y-2">
                             {quickPreviewUrls.length > 1 ? (
                               <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                                Screen {index + 1}
+                                Màn hình {index + 1}
                               </div>
                             ) : null}
                             <img
                               src={quickPreviewUrl}
                               alt={
                                 quickPreviewUrls.length > 1
-                                  ? `Quick export preview screen ${index + 1}`
-                                  : "Quick export preview"
+                                  ? `Xem trước tải nhanh màn hình ${index + 1}`
+                                  : "Xem trước tải nhanh"
                               }
                               className="max-h-[70vh] w-full rounded-xl border border-slate-200 bg-slate-50 object-contain"
                             />
@@ -727,8 +727,8 @@ export const MainLayout = () => {
                         ))}
                         <div className="text-xs text-slate-500">
                           {quickPreviewUrls.length > 1
-                            ? "Download saves one file per screen in order."
-                            : "Right click the image to save."}
+                            ? "Tải xuống sẽ lưu từng tệp theo đúng thứ tự màn hình."
+                            : "Nhấp chuột phải vào ảnh để lưu."}
                         </div>
                       </div>
                     ) : null}
@@ -773,90 +773,89 @@ export const MainLayout = () => {
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="ghost" size="sm">
-                Terms and Conditions
+                Điều khoản và điều kiện
               </Button>
             </DialogTrigger>
             <DialogContent className="max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Terms and Conditions</DialogTitle>
+                <DialogTitle>Điều khoản và điều kiện</DialogTitle>
                 <DialogDescription>
-                  By using this app, you agree to these terms.
+                  Khi sử dụng ứng dụng này, bạn đồng ý với các điều khoản bên dưới.
                 </DialogDescription>
-                <div className="text-xs text-slate-500">Last updated: 2026-01-03 | Version: 2026-01-03</div>
+                <div className="text-xs text-slate-500">Cập nhật lần cuối: 2026-01-03 | Phiên bản: 2026-01-03</div>
               </DialogHeader>
               <div className="space-y-4 text-sm text-slate-600">
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">What this app does</div>
+                  <div className="text-sm font-semibold text-slate-900">Ứng dụng này làm gì</div>
                   <p>
-                    This app lets you compose chat mockups, preview layouts, and export images.
-                    All processing happens in your browser.
+                    Ứng dụng cho phép bạn tạo mô phỏng đoạn chat, xem trước bố cục và xuất ảnh.
+                    Mọi xử lý đều diễn ra trong trình duyệt của bạn.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Data handling and GDPR</div>
+                  <div className="text-sm font-semibold text-slate-900">Xử lý dữ liệu và GDPR</div>
                   <p>
-                    We do not collect, store, or process personal data on our servers. Your edits
-                    and autosaves stay in your browser&apos;s local storage. You can delete them
-                    using Clear or by clearing site data in your browser.
+                    Chúng tôi không thu thập, lưu trữ hoặc xử lý dữ liệu cá nhân trên máy chủ.
+                    Các chỉnh sửa và tự động lưu của bạn nằm trong bộ nhớ cục bộ của trình duyệt.
+                    Bạn có thể xoá chúng bằng nút Xoá hoặc xoá dữ liệu trang trong trình duyệt.
                   </p>
                   <p>
-                    We do not run analytics or tracking cookies. Because your content does not
-                    leave your device, there is no server-side data controller or processor for
-                    your content. If you contact us, we will only use your email to respond.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Third-party resources</div>
-                  <p>
-                    The app may load fonts or user-provided remote images from third-party
-                    providers. Those providers may receive standard request data such as IP
-                    address and user agent. You can replace assets or block network requests if
-                    needed.
+                    Chúng tôi không chạy phân tích theo dõi hoặc cookie theo dõi. Vì nội dung của
+                    bạn không rời khỏi thiết bị, nên không có bên xử lý dữ liệu phía máy chủ cho
+                    nội dung đó. Nếu bạn liên hệ, email của bạn chỉ được dùng để phản hồi.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Your content</div>
+                  <div className="text-sm font-semibold text-slate-900">Tài nguyên bên thứ ba</div>
                   <p>
-                    You are responsible for the content you enter and export. Do not include
-                    sensitive data unless you are comfortable storing it locally. Only use content
-                    and assets you have the rights to use.
+                    Ứng dụng có thể tải phông chữ hoặc ảnh từ xa do người dùng cung cấp qua dịch vụ
+                    bên thứ ba. Các nhà cung cấp đó có thể nhận dữ liệu yêu cầu tiêu chuẩn như địa
+                    chỉ IP và user-agent. Bạn có thể thay thế tài nguyên hoặc chặn yêu cầu mạng khi cần.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">No warranties</div>
+                  <div className="text-sm font-semibold text-slate-900">Nội dung của bạn</div>
                   <p>
-                    The app is provided &quot;as is&quot; and &quot;as available&quot; without any
-                    warranties, express or implied, including accuracy, reliability, availability,
-                    or fitness for a particular purpose. Use the app at your own risk.
+                    Bạn chịu trách nhiệm với nội dung đã nhập và xuất. Không nên đưa dữ liệu nhạy
+                    cảm nếu bạn không muốn lưu nó cục bộ. Chỉ sử dụng nội dung và tài nguyên mà
+                    bạn có quyền sử dụng.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Limitation of liability</div>
+                  <div className="text-sm font-semibold text-slate-900">Miễn trừ bảo đảm</div>
                   <p>
-                    To the maximum extent permitted by law, we are not liable for any indirect,
-                    incidental, special, consequential, or punitive damages, or any loss of data,
-                    profits, or business interruption. Our total liability is limited to the
-                    amount you paid for the app, which is zero.
+                    Ứng dụng được cung cấp theo trạng thái &quot;nguyên bản&quot; và &quot;sẵn có&quot;,
+                    không có bất kỳ bảo đảm rõ ràng hay ngụ ý nào, bao gồm độ chính xác, độ tin cậy,
+                    tính sẵn sàng hoặc mức độ phù hợp cho mục đích cụ thể. Bạn tự chịu rủi ro khi sử dụng.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Governing law</div>
+                  <div className="text-sm font-semibold text-slate-900">Giới hạn trách nhiệm</div>
                   <p>
-                    These terms are governed by the laws of Romania. Any disputes are subject to
-                    the exclusive jurisdiction of the courts in Romania.
+                    Trong phạm vi tối đa pháp luật cho phép, chúng tôi không chịu trách nhiệm với
+                    bất kỳ thiệt hại gián tiếp, ngẫu nhiên, đặc biệt, hệ quả hoặc mang tính trừng phạt,
+                    cũng như mất dữ liệu, lợi nhuận hoặc gián đoạn kinh doanh. Tổng trách nhiệm của
+                    chúng tôi bị giới hạn ở số tiền bạn đã trả cho ứng dụng, tức là bằng 0.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Contact</div>
+                  <div className="text-sm font-semibold text-slate-900">Luật điều chỉnh</div>
                   <p>
-                    Questions about these terms or GDPR? Email: queadx@gmail.com
+                    Các điều khoản này được điều chỉnh theo pháp luật Romania. Mọi tranh chấp thuộc
+                    thẩm quyền xét xử riêng của toà án tại Romania.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Changes</div>
+                  <div className="text-sm font-semibold text-slate-900">Liên hệ</div>
                   <p>
-                    We may update these terms from time to time. Continued use means you accept
-                    the updated terms.
+                    Có câu hỏi về điều khoản hoặc GDPR? Email: queadx@gmail.com
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-semibold text-slate-900">Thay đổi</div>
+                  <p>
+                    Chúng tôi có thể cập nhật điều khoản theo thời gian. Việc tiếp tục sử dụng đồng
+                    nghĩa bạn chấp nhận phiên bản điều khoản đã được cập nhật.
                   </p>
                 </div>
               </div>
@@ -866,59 +865,59 @@ export const MainLayout = () => {
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="ghost" size="sm">
-                Privacy Policy
+                Chính sách quyền riêng tư
               </Button>
             </DialogTrigger>
             <DialogContent className="max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Privacy Policy</DialogTitle>
+                <DialogTitle>Chính sách quyền riêng tư</DialogTitle>
                 <DialogDescription>
-                  This policy explains how data is handled in the app.
+                  Chính sách này giải thích cách dữ liệu được xử lý trong ứng dụng.
                 </DialogDescription>
-                <div className="text-xs text-slate-500">Last updated: 2026-01-03 | Version: 2026-01-03</div>
+                <div className="text-xs text-slate-500">Cập nhật lần cuối: 2026-01-03 | Phiên bản: 2026-01-03</div>
               </DialogHeader>
               <div className="space-y-4 text-sm text-slate-600">
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Data we collect</div>
+                  <div className="text-sm font-semibold text-slate-900">Dữ liệu chúng tôi thu thập</div>
                   <p>
-                    We do not collect or store your chat content on our servers. Everything you
-                    create stays on your device.
+                    Chúng tôi không thu thập hoặc lưu nội dung chat của bạn trên máy chủ. Mọi thứ
+                    bạn tạo đều ở lại trên thiết bị của bạn.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Local storage</div>
+                  <div className="text-sm font-semibold text-slate-900">Lưu trữ cục bộ</div>
                   <p>
-                    The app uses your browser&apos;s local storage to keep autosaves and settings.
-                    You can remove this data with Clear or by clearing site data in your browser.
+                    Ứng dụng dùng bộ nhớ cục bộ của trình duyệt để lưu tự động và cài đặt. Bạn có thể
+                    xoá dữ liệu này bằng nút Xoá hoặc xoá dữ liệu trang trong trình duyệt.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Third-party requests</div>
+                  <div className="text-sm font-semibold text-slate-900">Yêu cầu đến bên thứ ba</div>
                   <p>
-                    Fonts and user-provided remote images may be loaded from third-party services.
-                    Those providers may receive standard request data such as IP address and user
-                    agent. You can block or replace these resources if needed.
+                    Phông chữ và ảnh từ xa do người dùng cung cấp có thể được tải từ dịch vụ bên
+                    thứ ba. Các bên đó có thể nhận dữ liệu yêu cầu tiêu chuẩn như địa chỉ IP và
+                    user-agent. Bạn có thể chặn hoặc thay thế những tài nguyên này khi cần.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">GDPR readiness</div>
+                  <div className="text-sm font-semibold text-slate-900">Tuân thủ GDPR</div>
                   <p>
-                    Because your content does not leave your device, there is no server-side
-                    processing of personal data for the app. If you contact us, we only use your
-                    email to respond and do not share it.
+                    Vì nội dung của bạn không rời khỏi thiết bị, ứng dụng không xử lý dữ liệu cá
+                    nhân ở phía máy chủ. Nếu bạn liên hệ, email của bạn chỉ được dùng để phản hồi
+                    và không được chia sẻ.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Contact</div>
+                  <div className="text-sm font-semibold text-slate-900">Liên hệ</div>
                   <p>
-                    Privacy questions? Email: queadx@gmail.com
+                    Câu hỏi về quyền riêng tư? Email: queadx@gmail.com
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-slate-900">Changes</div>
+                  <div className="text-sm font-semibold text-slate-900">Thay đổi</div>
                   <p>
-                    We may update this policy from time to time. Continued use means you accept
-                    the updated policy.
+                    Chúng tôi có thể cập nhật chính sách này theo thời gian. Việc tiếp tục sử dụng
+                    đồng nghĩa bạn chấp nhận phiên bản chính sách đã cập nhật.
                   </p>
                 </div>
               </div>
@@ -930,7 +929,7 @@ export const MainLayout = () => {
         <div className="rounded-[1.4rem] border border-white/70 bg-white/90 p-1 shadow-lg backdrop-blur">
           <div
             role="tablist"
-            aria-label="Mobile view mode"
+            aria-label="Chế độ xem trên di động"
             className="relative grid min-w-[188px] grid-cols-2 items-center"
           >
             <div
@@ -955,7 +954,7 @@ export const MainLayout = () => {
                 })
               }
             >
-              Edit
+              Sửa
             </button>
             <button
               type="button"
@@ -972,7 +971,7 @@ export const MainLayout = () => {
                 })
               }
             >
-              Live
+              Xem
             </button>
           </div>
         </div>

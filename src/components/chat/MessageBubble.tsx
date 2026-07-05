@@ -130,7 +130,7 @@ export const MessageBubble = ({
     sender?.avatarUrl ? (
       <AvatarImage
         src={sender.avatarUrl}
-        alt={sender?.name || "Avatar"}
+        alt={sender?.name || "Ảnh đại diện"}
         className="h-7 w-7"
       />
     ) : (
@@ -143,7 +143,7 @@ export const MessageBubble = ({
     sender?.avatarUrl ? (
       <AvatarImage
         src={sender.avatarUrl}
-        alt={sender?.name || "Avatar"}
+        alt={sender?.name || "Ảnh đại diện"}
         className="h-6 w-6"
         borderClassName="border border-[var(--chat-border)]"
       />
@@ -185,7 +185,7 @@ export const MessageBubble = ({
           {message.imageUrl ? (
             <img
               src={message.imageUrl}
-              alt={message.content || "Uploaded message"}
+              alt={message.content || "Ảnh đã tải lên"}
               className={cn(
                 "max-h-64 w-full max-w-[240px] border border-white/20 object-cover",
                 imageRadius,
@@ -273,7 +273,7 @@ export const MessageBubble = ({
               style={{ backgroundColor: sender?.color ?? "transparent" }}
             />
           ) : null}
-          <span>{isSnapchat ? (isOwn ? "You" : sender?.name ?? "Unknown") : sender?.name}</span>
+          <span>{isSnapchat ? (isOwn ? "Bạn" : sender?.name ?? "Không rõ") : sender?.name}</span>
           {verifiedBadge}
         </div>
       ) : null}

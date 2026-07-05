@@ -16,7 +16,7 @@ export const layoutConfigs: LayoutConfig[] = [
     themes: [
       {
         id: "light",
-        name: "Light",
+        name: "Sáng",
         colors: {
           background: "#ece5dd",
           surface: "#f0f2f5",
@@ -36,7 +36,7 @@ export const layoutConfigs: LayoutConfig[] = [
       },
       {
         id: "dark",
-        name: "Dark",
+        name: "Tối",
         colors: {
           background: "#0b141a",
           surface: "#202c33",

@@ -101,7 +101,7 @@ export const ExportPanel = ({
     } catch (error) {
       console.error("Export failed", error)
       if (mode === "preview") {
-        const message = error instanceof Error ? error.message : "Unknown error"
+        const message = error instanceof Error ? error.message : "Lỗi không xác định"
         setPreviewError(message)
       }
     } finally {
@@ -114,21 +114,21 @@ export const ExportPanel = ({
 
   const captureSummary =
     exportSettings.captureMode === "full"
-      ? "All messages"
+      ? "Toàn bộ tin nhắn"
       : exportSettings.captureMode === "screens"
-        ? `${screenCount} subsequent screens`
-        : "Current viewport"
+        ? `${screenCount} màn hình liên tiếp`
+        : "Khung nhìn hiện tại"
   const settingsSummary = `${exportSettings.width} x ${effectiveHeight} - ${exportSettings.scale}x - ${exportSettings.format.toUpperCase()} - ${captureSummary}`
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-semibold text-slate-900">Export</h3>
-          <p className="text-xs text-slate-500">Set size, format, and quality before exporting.</p>
+          <h3 className="text-sm font-semibold text-slate-900">Xuất ảnh</h3>
+          <p className="text-xs text-slate-500">Chọn kích thước, định dạng và chất lượng trước khi xuất.</p>
         </div>
         <Button variant="ghost" size="sm" onClick={() => setIsSummaryOpen(!isSummaryOpen)}>
-          {isSummaryOpen ? "Collapse" : "Expand"}
+          {isSummaryOpen ? "Thu gọn" : "Mở rộng"}
         </Button>
       </div>
 
@@ -151,7 +151,7 @@ export const ExportPanel = ({
       ) : null}
 
       <div className="space-y-3">
-        <Label>Device presets</Label>
+        <Label>Mẫu thiết bị</Label>
         <SizePresets
           selectedId={exportSettings.presetId}
           onSelect={(presetItem) =>
@@ -166,7 +166,7 @@ export const ExportPanel = ({
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label>Custom width</Label>
+          <Label>Chiều rộng tuỳ chỉnh</Label>
           <div className="relative">
             <StretchHorizontal className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
@@ -184,7 +184,7 @@ export const ExportPanel = ({
           </div>
         </div>
         <div className="space-y-2">
-          <Label>Custom height</Label>
+          <Label>Chiều cao tuỳ chỉnh</Label>
           <div className="relative">
             <StretchVertical className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
@@ -204,7 +204,7 @@ export const ExportPanel = ({
       </div>
 
       <div className="space-y-2">
-        <Label>Quality</Label>
+        <Label>Chất lượng</Label>
         <div className="flex flex-wrap gap-2">
           {[1, 2, 3].map((scale) => (
             <Button
@@ -219,7 +219,7 @@ export const ExportPanel = ({
       </div>
 
       <div className="space-y-2">
-        <Label>Format</Label>
+        <Label>Định dạng</Label>
         <div className="flex gap-2">
           <Button
             variant={exportSettings.format === "png" ? "default" : "outline"}
@@ -237,44 +237,44 @@ export const ExportPanel = ({
       </div>
 
       <div className="space-y-2">
-        <Label>Capture</Label>
+        <Label>Phạm vi chụp</Label>
         <div className="flex flex-wrap gap-2">
           <Button
             variant={exportSettings.captureMode === "viewport" ? "default" : "outline"}
             onClick={() => setExportSettings({ captureMode: "viewport" })}
           >
-            Current viewport
+            Khung nhìn hiện tại
           </Button>
           <Button
             variant={exportSettings.captureMode === "full" ? "default" : "outline"}
             onClick={() => setExportSettings({ captureMode: "full" })}
           >
-            All messages
+            Toàn bộ tin nhắn
           </Button>
           <Button
             variant={exportSettings.captureMode === "screens" ? "default" : "outline"}
             onClick={() => setExportSettings({ captureMode: "screens" })}
           >
-            Subsequent screens
+            Nhiều màn hình liên tiếp
           </Button>
         </div>
         <p className="text-xs text-slate-500">
           {exportSettings.captureMode === "full"
-            ? `Height expands automatically to ${effectiveHeight}px so every visible message is included.`
+            ? `Chiều cao sẽ tự mở rộng tới ${effectiveHeight}px để chứa toàn bộ tin nhắn đang hiển thị.`
             : exportSettings.captureMode === "screens"
-              ? `Automatically splits the thread into ${screenCount} device-sized screenshots based on the current export height.`
-              : "Export exactly what is visible in the device frame right now."}
+              ? `Tự động chia đoạn chat thành ${screenCount} ảnh chụp theo kích thước thiết bị dựa trên chiều cao hiện tại.`
+              : "Xuất chính xác phần đang hiển thị trong khung thiết bị."}
         </p>
       </div>
 
       <div className="grid gap-2 sm:grid-cols-2">
         <Button variant="outline" onClick={() => runExport("preview")} disabled={isExporting}>
           {isExporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Image className="h-4 w-4" />}
-          Preview
+          Xem trước
         </Button>
         <Button onClick={() => runExport("download")} disabled={isExporting}>
           {isExporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-          Download
+          Tải xuống
         </Button>
       </div>
 
@@ -291,14 +291,14 @@ export const ExportPanel = ({
       >
         <DialogContent className="w-[94vw] max-w-5xl max-h-[88vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Export preview</DialogTitle>
+            <DialogTitle>Xem trước ảnh xuất</DialogTitle>
             <DialogDescription>{settingsSummary}</DialogDescription>
           </DialogHeader>
           {isPreviewing ? (
-            <div className="text-sm text-slate-500">Rendering preview...</div>
+            <div className="text-sm text-slate-500">Đang dựng ảnh xem trước...</div>
           ) : null}
           {previewError ? (
-            <div className="text-sm text-red-600">Export failed: {previewError}</div>
+            <div className="text-sm text-red-600">Xuất ảnh thất bại: {previewError}</div>
           ) : null}
           {previewUrls.length ? (
             <div className="space-y-3">
@@ -306,15 +306,15 @@ export const ExportPanel = ({
                 <div key={previewUrl} className="space-y-2">
                   {previewUrls.length > 1 ? (
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                      Screen {index + 1}
+                      Màn hình {index + 1}
                     </div>
                   ) : null}
                   <img
                     src={previewUrl}
                     alt={
                       previewUrls.length > 1
-                        ? `Export preview screen ${index + 1}`
-                        : "Export preview"
+                        ? `Xem trước ảnh xuất màn hình ${index + 1}`
+                        : "Xem trước ảnh xuất"
                     }
                     className="max-h-[70vh] w-full rounded-xl border border-slate-200 bg-slate-50 object-contain"
                   />
@@ -322,8 +322,8 @@ export const ExportPanel = ({
               ))}
               <div className="text-xs text-slate-500">
                 {previewUrls.length > 1
-                  ? "Download saves one image per screen in order."
-                  : "Right click the image to save."}
+                  ? "Tải xuống sẽ lưu từng ảnh theo đúng thứ tự màn hình."
+                  : "Nhấp chuột phải vào ảnh để lưu."}
               </div>
             </div>
           ) : null}
@@ -332,10 +332,10 @@ export const ExportPanel = ({
 
       {preset ? (
         <p className="text-xs text-slate-500">
-          Preset: {preset.label} - {preset.width} x {preset.height}
+          Mẫu: {preset.label} - {preset.width} x {preset.height}
         </p>
       ) : (
-        <p className="text-xs text-slate-500">Custom size active.</p>
+        <p className="text-xs text-slate-500">Đang dùng kích thước tuỳ chỉnh.</p>
       )}
     </div>
   )

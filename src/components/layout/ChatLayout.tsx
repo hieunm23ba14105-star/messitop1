@@ -21,25 +21,25 @@ interface ChatLayoutProps {
 
 const groupStatusLabel = (participants: Conversation["participants"]) => {
   const typing = participants.find((participant) => participant.status === "typing")
-  if (typing) return `${typing.name} is typing...`
+  if (typing) return `${typing.name} đang nhập...`
   const online = participants.filter((participant) => participant.status === "online")
-  if (online.length) return `${online.length} online`
+  if (online.length) return `${online.length} đang hoạt động`
   const hasStatus = participants.some((participant) => participant.status !== "empty")
   if (!hasStatus) return ""
-  return "Offline"
+  return "Ngoại tuyến"
 }
 
 const directStatusLabel = (status?: string, layoutId?: LayoutId) => {
   if (layoutId === "instagram") {
-    if (status === "typing") return "Typing..."
-    if (status === "online") return "Active now"
+    if (status === "typing") return "Đang nhập..."
+    if (status === "online") return "Đang hoạt động"
     if (status === "empty") return ""
-    return "Active yesterday"
+    return "Hoạt động hôm qua"
   }
-  if (status === "typing") return "typing..."
-  if (status === "online") return "online"
+  if (status === "typing") return "đang nhập..."
+  if (status === "online") return "đang hoạt động"
   if (status === "empty") return ""
-  return "offline"
+  return "ngoại tuyến"
 }
 
 const getSelfParticipantId = (
@@ -75,7 +75,8 @@ export const ChatLayout = ({
     ? conversation.participants.find((participant) => participant.id !== selfId) ??
       conversation.participants[0]
     : undefined
-  const title = isGroup ? getConversationTitle(conversation) : headerParticipant?.name ?? "New Chat"
+  const title =
+    isGroup ? getConversationTitle(conversation) : headerParticipant?.name ?? "Cuộc trò chuyện mới"
   const subtitle = isGroup
     ? groupStatusLabel(conversation.participants)
     : directStatusLabel(headerParticipant?.status, layout.id)

@@ -35,22 +35,22 @@ export const SettingsPanel = () => {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-slate-900">Appearance & Preview</h3>
-        <p className="text-xs text-slate-500">Control layout, theme, and preview behavior.</p>
+        <h3 className="text-sm font-semibold text-slate-900">Giao diện & xem trước</h3>
+        <p className="text-xs text-slate-500">Tuỳ chỉnh bố cục, chủ đề và cách hiển thị xem trước.</p>
       </div>
 
       <div className="space-y-2">
-        <Label>Layout</Label>
+        <Label>Bố cục</Label>
         <LayoutSelector />
       </div>
 
       <div className="space-y-2">
-        <Label>{isGroup ? "Group name" : "Conversation"}</Label>
+        <Label>{isGroup ? "Tên nhóm" : "Cuộc trò chuyện"}</Label>
         {isGroup ? (
           <Input
             value={conversation.groupName ?? ""}
             onChange={(event) => setGroupName(event.target.value)}
-            placeholder="Enter group name"
+            placeholder="Nhập tên nhóm"
           />
         ) : (
           <div className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600">
@@ -61,8 +61,8 @@ export const SettingsPanel = () => {
 
       <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
         <div>
-          <div className="text-sm font-medium text-slate-900">Theme</div>
-          <div className="text-xs text-slate-500">Switch between light and dark.</div>
+          <div className="text-sm font-medium text-slate-900">Chủ đề</div>
+          <div className="text-xs text-slate-500">Chuyển giữa giao diện sáng và tối.</div>
         </div>
         <Switch
           checked={isDark}
@@ -73,14 +73,14 @@ export const SettingsPanel = () => {
 
       <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
         <div>
-          <div className="text-sm font-medium text-slate-900">Chrome</div>
-          <div className="text-xs text-slate-500">Show header and input bar.</div>
+          <div className="text-sm font-medium text-slate-900">Khung giao diện</div>
+          <div className="text-xs text-slate-500">Hiển thị thanh đầu và ô nhập tin nhắn.</div>
         </div>
         <Switch checked={ui.showChrome} onCheckedChange={(value) => setUi({ showChrome: value })} />
       </div>
 
       <div className="space-y-2">
-        <Label>Zoom</Label>
+        <Label>Thu phóng</Label>
         <div className="flex flex-wrap gap-2">
           <Button
             variant="outline"
@@ -88,7 +88,7 @@ export const SettingsPanel = () => {
             onClick={() => setUi({ zoom: clamp(ui.zoom - 0.1, 0.5, 2) })}
           >
             <Minus className="h-4 w-4" />
-            Zoom out
+            Thu nhỏ
           </Button>
           <Button
             variant="outline"
@@ -96,34 +96,34 @@ export const SettingsPanel = () => {
             onClick={() => setUi({ zoom: clamp(ui.zoom + 0.1, 0.5, 2) })}
           >
             <Plus className="h-4 w-4" />
-            Zoom in
+            Phóng to
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setUi({ zoom: 1 })}>
             <ScreenShare className="h-4 w-4" />
-            Reset
+            Đặt lại
           </Button>
         </div>
       </div>
 
       <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
         <div>
-          <div className="text-sm font-medium text-slate-900">Auto-fit preview</div>
-          <div className="text-xs text-slate-500">Scale to fit the preview panel.</div>
+          <div className="text-sm font-medium text-slate-900">Tự khớp khung xem trước</div>
+          <div className="text-xs text-slate-500">Tự co giãn để vừa vùng xem trước.</div>
         </div>
         <Switch checked={ui.autoFit} onCheckedChange={(value) => setUi({ autoFit: value })} />
       </div>
 
       <div className="space-y-2">
-        <Label>Background image</Label>
+        <Label>Ảnh nền</Label>
         <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-3">
           <div className="grid gap-3 sm:grid-cols-[120px_1fr]">
             <div className="h-24 w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
               {backgroundImageUrl ? (
-                <img src={backgroundImageUrl} alt="Background preview" className="h-full w-full object-cover" />
+                <img src={backgroundImageUrl} alt="Xem trước ảnh nền" className="h-full w-full object-cover" />
               ) : (
                 <div className="flex h-full flex-col items-center justify-center gap-1 text-xs text-slate-400">
                   <ImagePlus className="h-4 w-4" />
-                  No image
+                  Chưa có ảnh
                 </div>
               )}
             </div>
@@ -131,18 +131,18 @@ export const SettingsPanel = () => {
               <Button asChild variant="outline" className="w-full justify-center gap-2">
                 <label htmlFor="bg-upload" className="flex cursor-pointer items-center gap-2">
                   <ImagePlus className="h-4 w-4" />
-                  Upload image
+                  Tải ảnh lên
                 </label>
               </Button>
               <div className="flex items-center justify-between text-xs text-slate-500">
-                <span>Uploads only (best for exports)</span>
+                <span>Chỉ dùng ảnh tải lên (xuất ảnh ổn định hơn)</span>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={clearBackgroundImage}
                   disabled={!backgroundImageUrl}
                 >
-                  Clear
+                  Xoá
                 </Button>
               </div>
               <input
@@ -165,7 +165,7 @@ export const SettingsPanel = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs">Background opacity</Label>
+            <Label className="text-xs">Độ mờ ảnh nền</Label>
             <div className="flex items-center gap-3">
               <Slider
                 min={0}
@@ -195,11 +195,11 @@ export const SettingsPanel = () => {
       </div>
 
       <div className="space-y-2">
-        <Label>Background color</Label>
+        <Label>Màu nền</Label>
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3">
           <div className="flex items-center gap-2">
             <PaintBucket className="h-4 w-4 text-slate-500" />
-            <span className="text-xs text-slate-500">Fill</span>
+            <span className="text-xs text-slate-500">Tô nền</span>
           </div>
           <Input
             type="color"
@@ -220,7 +220,7 @@ export const SettingsPanel = () => {
             onClick={() => setBackgroundColor("")}
             disabled={!backgroundColor}
           >
-            Reset
+            Đặt lại
           </Button>
         </div>
       </div>

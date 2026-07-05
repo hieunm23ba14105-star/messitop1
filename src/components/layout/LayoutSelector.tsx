@@ -25,7 +25,7 @@ export const LayoutSelector = () => {
       }}
     >
       <SelectTrigger className="w-full sm:w-[200px]">
-        <SelectValue placeholder="Select layout" />
+        <SelectValue placeholder="Chọn bố cục" />
       </SelectTrigger>
       <SelectContent>
         {layoutConfigs.map((layout) => (

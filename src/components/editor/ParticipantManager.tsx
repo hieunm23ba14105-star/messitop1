@@ -32,10 +32,10 @@ export const ParticipantManager = () => {
 
   const validateFile = (file: File) => {
     if (!file.type.startsWith("image/")) {
-      return "Only image files are allowed."
+      return "Chỉ cho phép tệp hình ảnh."
     }
     if (file.size > 2 * 1024 * 1024) {
-      return "Image must be smaller than 2MB."
+      return "Ảnh phải nhỏ hơn 2MB."
     }
     return null
   }
@@ -52,7 +52,7 @@ export const ParticipantManager = () => {
       updateParticipant(participantId, { avatarUrl: dataUrl })
     } catch (error) {
       console.error("Failed to read avatar file", error)
-      setError("Could not read the selected image.")
+      setError("Không thể đọc ảnh đã chọn.")
     }
   }
 
@@ -68,16 +68,16 @@ export const ParticipantManager = () => {
       setDraft((prev) => ({ ...prev, avatarUrl: dataUrl }))
     } catch (error) {
       console.error("Failed to read avatar file", error)
-      setError("Could not read the selected image.")
+      setError("Không thể đọc ảnh đã chọn.")
     }
   }
 
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-slate-900">Participants</h3>
+        <h3 className="text-sm font-semibold text-slate-900">Người tham gia</h3>
         <p className="text-xs text-slate-500">
-          Manage contacts, avatars, and choose who is sending the next message.
+          Quản lý liên hệ, avatar và chọn người gửi tin nhắn tiếp theo.
         </p>
       </div>
 
@@ -108,7 +108,7 @@ export const ParticipantManager = () => {
                       onClick={() => updateParticipant(participant.id, { avatarUrl: undefined })}
                     >
                       <X className="h-3 w-3" />
-                      <span className="sr-only">Remove avatar</span>
+                      <span className="sr-only">Xoá avatar</span>
                     </Button>
                   </>
                 ) : (
@@ -149,7 +149,7 @@ export const ParticipantManager = () => {
                 <Input
                   value={participant.name}
                   onChange={(event) => updateParticipant(participant.id, { name: event.target.value })}
-                  placeholder="Name"
+                  placeholder="Tên"
                 />
                 <div className="grid gap-2 sm:grid-cols-2">
                   <Select
@@ -159,13 +159,13 @@ export const ParticipantManager = () => {
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Status" />
+                      <SelectValue placeholder="Trạng thái" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="online">Online</SelectItem>
-                      <SelectItem value="offline">Offline</SelectItem>
-                      <SelectItem value="typing">Typing</SelectItem>
-                      <SelectItem value="empty">Empty</SelectItem>
+                      <SelectItem value="online">Đang hoạt động</SelectItem>
+                      <SelectItem value="offline">Ngoại tuyến</SelectItem>
+                      <SelectItem value="typing">Đang nhập</SelectItem>
+                      <SelectItem value="empty">Ẩn trạng thái</SelectItem>
                     </SelectContent>
                   </Select>
                   <Input
@@ -175,7 +175,7 @@ export const ParticipantManager = () => {
                   />
                 </div>
                 <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-                  <span className="text-xs font-medium text-slate-500">Verified badge</span>
+                  <span className="text-xs font-medium text-slate-500">Huy hiệu xác minh</span>
                   <Switch
                     checked={Boolean(participant.isVerified)}
                     onCheckedChange={(value) => updateParticipant(participant.id, { isVerified: value })}
@@ -190,7 +190,7 @@ export const ParticipantManager = () => {
                   onClick={() => setActiveParticipant(participant.id)}
                 >
                   <Star className="h-4 w-4" />
-                  Active
+                  Đang chọn
                 </Button>
                 <Button variant="ghost" size="icon" onClick={() => removeParticipant(participant.id)}>
                   <Trash2 className="h-4 w-4" />
@@ -202,17 +202,17 @@ export const ParticipantManager = () => {
       </div>
 
       <div className="rounded-xl border border-dashed border-slate-200 bg-white/70 p-3">
-        <Label className="text-xs uppercase text-slate-400">Add new participant</Label>
+        <Label className="text-xs uppercase text-slate-400">Thêm người tham gia mới</Label>
         <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
           <Input
             value={draft.name}
             onChange={(event) => setDraft((prev) => ({ ...prev, name: event.target.value }))}
-            placeholder="Participant name"
+            placeholder="Tên người tham gia"
           />
           <Button
             onClick={() => {
               if (!draft.name.trim()) {
-                setError("Name is required.")
+                setError("Bạn cần nhập tên.")
                 return
               }
               addParticipant({
@@ -226,18 +226,18 @@ export const ParticipantManager = () => {
               setError(null)
             }}
           >
-            Add
+            Thêm
           </Button>
         </div>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <Button asChild variant="outline" size="sm">
             <label htmlFor="avatar-draft" className="flex items-center gap-2">
               <ImagePlus className="h-4 w-4" />
-              Upload avatar
+              Tải avatar lên
             </label>
           </Button>
           <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2 py-1">
-            <span className="text-xs text-slate-500">Verified</span>
+            <span className="text-xs text-slate-500">Xác minh</span>
             <Switch
               checked={Boolean(draft.isVerified)}
               onCheckedChange={(value) => setDraft((prev) => ({ ...prev, isVerified: value }))}
@@ -249,7 +249,7 @@ export const ParticipantManager = () => {
               size="sm"
               onClick={() => setDraft((prev) => ({ ...prev, avatarUrl: "" }))}
             >
-              Remove avatar
+              Xoá avatar
             </Button>
           ) : null}
           <Input
@@ -257,7 +257,7 @@ export const ParticipantManager = () => {
             value={draft.color}
             onChange={(event) => setDraft((prev) => ({ ...prev, color: event.target.value }))}
           />
-          <span className="text-xs text-slate-500">Uploads only (best for exports)</span>
+          <span className="text-xs text-slate-500">Chỉ dùng ảnh tải lên (xuất ảnh ổn định)</span>
           <input
             id="avatar-draft"
             type="file"
