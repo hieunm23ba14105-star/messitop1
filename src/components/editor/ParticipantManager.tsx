@@ -159,13 +159,13 @@ export const ParticipantManager = () => {
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Trạng thái" />
+                      <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="online">Đang hoạt động</SelectItem>
-                      <SelectItem value="offline">Ngoại tuyến</SelectItem>
-                      <SelectItem value="typing">Đang nhập</SelectItem>
-                      <SelectItem value="empty">Ẩn trạng thái</SelectItem>
+                      <SelectItem value="online">Online</SelectItem>
+                      <SelectItem value="offline">Offline</SelectItem>
+                      <SelectItem value="typing">Typing</SelectItem>
+                      <SelectItem value="empty">No status</SelectItem>
                     </SelectContent>
                   </Select>
                   <Input

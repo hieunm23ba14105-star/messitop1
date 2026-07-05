@@ -8,7 +8,7 @@ interface MessageInputProps {
   layout?: LayoutConfig
 }
 
-export const MessageInput = ({ placeholder = "Tin nhắn", layout }: MessageInputProps) => {
+export const MessageInput = ({ placeholder = "Message", layout }: MessageInputProps) => {
   const isWhatsApp = layout?.id === "whatsapp"
   const isIMessage = layout?.id === "imessage"
   const isSnapchat = layout?.id === "snapchat"

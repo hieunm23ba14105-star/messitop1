@@ -322,7 +322,7 @@ export const MainLayout = () => {
     },
     {
       id: "messages",
-      label: "Tin nhắn",
+      label: "Messages",
       icon: MessagesSquare,
       description: "Soạn nội dung, sắp xếp lại và chỉnh thời gian hội thoại.",
       meta: `${conversation.messages.length} tin nhắn`,
